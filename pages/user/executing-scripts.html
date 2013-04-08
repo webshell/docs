@@ -1,0 +1,145 @@
+<section id="execute-js">
+	<h2>Webshell HTTP API - Execute Javascript via HTTP</h2>
+	<p>To resume how work Webshell, you just have to send an HTTP request (GET or POST) to <code>http://api.webshell.io</code> with some Javascript to execute in parameter. We process your code on the fly and give you a JSON with the results. As it's just an HTTP Request, you can make it in any language you want. Just, if you want to use it in a server side language, don't forget to inject in the DOM manually views and method calls for client side scripts (some samples are available in the <a href="#node-sdk">node.js SDK</a> part).</p>
+	<p><code>http://api.webshell.io?code={code}&args={args}&output={output}&key={key}&secret={secret}</code></p>
+
+	<h4>Paramaters</h4>
+	<table class="table">
+		<thead>
+			<th style="width:10%">Parameters</th>
+			<th style="width:40%">Description</th>
+			<th style="width:50%">Example</th>
+		</thead>
+		<tbody>
+			<tr>
+				<td>code</td>
+				<td>This is where you will place the Javascript code to query APIs powered by node.js :) the code can be on multiple lines and the variable <code>args</code> is added in the context of your codeaccording to the <code>args</code> parameter</td>
+				<td><code>apis.gravatar(args.mail)</code></td>
+			</tr>
+			<tr>
+				<td>args</td>
+				<td>Send arguments to your code, which are accessible using the <code>args</code> object, making it more configurable</td>
+				<td><code>{mail:'team%40webshell.io'}</code></pre></td>
+			</tr>
+			<tr>
+				<td>sid</td>
+				<td>The <code>sid</code> is used to identify your current on Webshell user and load his context (see <a href="#">Persistant variable</a>). You have to set <code>sid</code> with one retrieved in the response of the previous request in <code>_meta.cookie_add.sid</code>. <span style="display: block" class="alert-info">In the Javascript SDK, the sid is used transparently.</span></td>
+				<td></td>
+			<tr>
+				<td>output</td>
+				<td>Define the output of your request. You can choose between <code>json</code> or <code>xml</code>. This parameter is optional and by default set to <code>json</code></td>
+				<td><code>xml</code></td>
+			</tr>
+			<tr>
+				<td>key</td>
+				<td>Define your public API Key to get full access to Webshell APIs. To get one, create an app in your <a href="/dashbaord">dashboard</a></td>
+				<td><code>Your API Key</td>
+			</tr>
+			<tr>
+				<td>secret</td>
+				<td>Define your secret key <strong>if you are server side</strong>. Today, it allows you to do nothing more but we will soon add some features accessible only from server side (to be sure it is really you who executes the request)</td>
+				<td><code>Your secret Key</code></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h4>Response format</h4>
+	<p>This endpoint send back an array of result. A result can be some data returned by a script/an API, an HTML views to execute client side API or a call to make to a client side API already created. A result is structured as the following: </p>
+	<pre class="prettyprint">{
+  "data": (obj),
+  "_meta": {
+    "view": (string),
+    "cookie_add": {
+       sid: (string)
+    }
+  }
+}</pre><br />
+	<p>All fields are optional.</p>
+	<p>If <code>_meta</code> is not defined, instead of return an object containing a <code>data</code> field, it return directly the data itself as result</p>
+	<p>In your first request, you have a result containing only </p>
+	<pre class="prettyprint">{
+  "_meta": {
+    "cookie_add": {
+      "sid": (string)
+    }
+  }
+}</pre><br />
+	<p>You can use <code>_meta.cookie_add.sid</code> to fill the sid param to use persistant data in your following request. A result which contains <code>cookie_add</code> have no <code>data</code> or <code>view</code> fields</p>
+	<h4>Samples</h4>
+	<p>For example, if you want to execute a simple GET request to retrieve the meteo on :<br />
+	<pre class="prettyprint">get({
+  url: "https://api.metwit.com/v2/weather",
+  params: {
+    "location_lat": "45.45",
+    "location_lng": "9.18"
+  }
+})</pre>.<br /> via CURL: </p>
+
+	<p class="alert-info">In Javascript, if the last instruction is a number, a string or an object, the script will return it</p>
+	<pre class="prettyprint">$> curl --url "http://api.webshell.io" -d 'code=get({"url":"https://api.metwit.com/v2/weather","params":{"location_lat": "45.45", "location_lng": "9.18"}})'
+[
+  {
+    "objects": [
+      {
+        "weather": {
+          "status": "clear",
+          "measured": {
+            "wind_speed": 3.084,
+            "wind_direction": 140,
+            "temperature": 288,
+            "humidity": 51
+          }
+        },
+        (...)
+      },
+      (...)
+    ],
+  },
+  {
+    "_meta": {
+      "cookie_add": {
+        "sid": "CfLFMRVAZ9ljhH9U571Lp25E"
+      }
+    }
+  }
+]
+</pre><br />
+	<p>This Webshell response is an array containing 2 informations:</p>
+	<ul>
+		<li>The result of the last instruction (here <code>get()</code> builtin function). So it return the data of the Weather API.</li>
+		<li>an object with no <code>data</code> and a <code>_meta.add_cookie.sid</code> to allow you to identify your user on Webshell</li>
+	</ul>
+	<p>Of course, if you set a sid, the second result (<code>_meta.add_cookie.sid</code>) of the response will not be push in the results stack:</p>
+	<pre class="prettyprint">$> curl --url "http://api.webshell.io" -d 'code=get({"url":"https://api.metwit.com/v2/weather","params":{"location_lat": "45.45", "location_lng": "9.18"}})&sid=CfLFMRVAZ9ljhH9U571Lp25E'
+[
+  {
+    "objects": [
+      {
+        "weather": {
+          "status": "clear",
+          "measured": {
+            "wind_speed": 3.084,
+            "wind_direction": 140,
+            "temperature": 288,
+            "humidity": 51
+          }
+        },
+        (...)
+      },
+      (...)
+    ],
+  }
+]</pre><br />
+</section>
+<section id="fs">
+	<h2>FS API</h2>
+	<p></p>
+</section>
+<section id="js-sdk">
+	<h2>Javascript SDK</h2>
+	<p></p>
+</section>
+<section id="node-sdk">
+	<h2>Node.js SDK</h2>
+	<p></p>
+</section>
