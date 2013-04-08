@@ -173,7 +173,7 @@ var DocsRouter = Backbone.Router.extend({
 			$('#menu-docs').append('<li><a style="padding: 10px 20px" href="#' + type + '/' + page + '/' + key + '"><i class="icon-chevron-right" style="float: right"></i>' + menu[type][page].submenu[key] + '</a></li>')
 		}
 
-		$.get('/pages/' + type + '/' + page + '.html', {}, function(data) {
+		$.get('./pages/' + type + '/' + page + '.html', {}, function(data) {
 			$('#content-docs').html(data);
 			prettyPrint();
 			$(window).scroll(spyScroller);
