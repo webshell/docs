@@ -10,7 +10,7 @@ var menu = {
                 'apis-endpoints-as-js-object': 'APIs endpoints as Javascript',
                 'js-aas': 'Javascript as a service',
                 'fs': 'File system',
-                'c9': 'Cloud6 IDE',
+                'c9': 'Cloud9 IDE',
                 'shared-execution-environment': 'Shared execution environment',
                 'usage': 'Usage overview'
             }
@@ -91,7 +91,7 @@ var menu = {
                 'apis-endpoints-as-js-object': 'APIs endpoints as Javascript',
                 'code-as-demand': 'Code as demand',
                 'fs': 'File system',
-                'c9': 'Cloud6 IDE',
+                'c9': 'Cloud9 IDE',
                 'shared-execution-environment': 'Shared execution environment',
                 'wsh-community': 'The Webshell community'
             }

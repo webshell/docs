@@ -1,7 +1,14 @@
 <section id="what">
   <h2>What is Webshell?</h2>
 
-  <p>HTTP based APIs are now an integral part the web , they even compose a coherent part of it we often call the programmable web. More than 8500 open APIs and their providers companies use the Web for content and information delivery through these APIs.
+  <p>We are happy to present you webshell.io – an API of APIs trough a Javascript, declarative, evented, data-retrieval and aggregation gateway for HTTP APIs, built on node.js. Through Webshell, we want to help developers to develop application faster using APIs.</p>
+  <p><a href="http://webshell.io">Webshell.io</a> reduce the number of lines of code required to call multiple HTTP APIs mixed with some client side APIs. Simultaneously bringing down network latency and bandwidth usage, for mobile for example.</p>
+  <p>Webshell consists of a top layer of node.js focused on APIs, transforming API endpoints into Javascript objects, inspired by UNIX shell scripting paradigm, and this node.js-based runtime will process webshell scripts written in Javascript or Coffeescript throw an HTTP request.</p>
+</section>
+<section id="why">
+  <h2>Why using Webshell?</h2>
+
+  <p>HTTP based APIs are now an integral part of the web, they even compose a coherent part of it we often call the programmable web. More than 8500 open APIs and their providers companies use the Web for content and information delivery through these APIs.
   In this growing part of the web, there are still several pain points for application developers attempting to integrate and script APIs for their applications.</p>
 
   <p>Most real-world client apps need to mashup multiple APIs in one go. APIs mashups are often complicated as client apps need to worry about :
@@ -10,45 +17,20 @@
       <li>- endpoint description which oblige you to check the API documentation in depth to see each time at same functionalities between 2 APIs have not same method name</li>
       <li>- data format which oblige you to parse XML or JSON response from an API  to fit with the reception API when you make an API workflow</li>
       <li>- order of requests, inter-dependencies, error handling, and parallelization to reduce overall latency.</li>
-      <li>- HTML views that you have always to re-invent the wheel</li>
+      <li>- HTML views that you have always to do again and again.</li>
     </ul>
   </p>
-
-  <p>We are happy to present you webshell.io  – an API of APIs trough a Javascript, declarative, evented, data-retrieval and aggregation gateway for HTTP APIs, built on node.js. Through webshell.io, we want to help application developers to faster develop application using APIs for increasing improvement of end user experience and engineering clock speed.
-  Webshell.io can reduce the number of lines of code required to call multiple HTTP APIs while simultaneously bringing down network latency and bandwidth usage in certain use cases, for mobile for example.</p>
-  <p>Webshell.io consists of a top layer of node.js focused on APIs, transforming API endpoints into Javascript objects, inspired by UNIX shell scripting paradigm, and this node.js-based runtime will process webshell scripts written in Javascript or Coffeescript.</p>
-</section>
-<section id="why">
-  <h2>Why using Webshell?</h2>
-
-
-  <p>APIs are not always consistent as they evolve based on the API producers’ needs – which makes code noisier in order to normalize inconsistencies. (Authentication protocols, endpoints description, data format)
-  RESTful APIs are fixed and can't be adapted to every use. You might end up doing a lot of transformation on the client side to assemble the info you want, and it might take several calls, causing latency
-  Often those API requests have interdependencies – which requires programmatic orchestration of HTTP requests – making some requests in parallel and some in sequence to satisfy the dependencies and yet keep the overall latency low.
-  Most use cases require accessing multiple APIs – which involves making several network round trips.</p>
 
   <p>With 100 news APIs per week and 1 000 000 expected for 2017 this will grow exponentianally.</p>
 
   <p>We found that these issues have three critical impacts: development time, end user experience and engineering clock speed</p>
 
-
-
-  <p>Development time is too long for discovering and learning how to use APIs and make API workflows between different client side and server side APIs, authentication protocols, endpoint description and data format and then transforming the assembled data in server side code (PHP, python etc..) into Javascript for client side applications.<br />
-  End user experience suffers due to high bandwidth usage as well as the latency caused by the number of requests and the processing overhead of non-optimized responses from APIs.</p>
-
-
-  <p>Engineering clocks slow down because developers need to account for dependencies between API calls, and to arrange those calls to optimize overall latency. Implementing orchestration logic involves multi-threaded fork-join code, leads to code bloat, and distracts from the main business use case that the developer is striving to support.</p>
-
-
   <p>The goal of webshell.io is to ease three pain points:</p>
 
-
-
-  <p>By transforming all API endpoints into javascript objects, it become easy for developers to integrate, combine and script any APIs together,  and assemble the data you want on the client-side code works is implicitly done.
+  <p>By transforming all API endpoints into javascript objects, it become easy for developers to integrate, combine and script any APIs together, and assemble the data you want on the client-side code works is implicitly done.
   By using a Javascript interface to declare API calls, their interdependencies, you can cut down the number of lines of code from hundreds of lines to a few, and the development time from entire sprints to mere hours. Using Javascript, you can create new consumer-centric interfaces that are optimized for your application’s requirements.<br />
   You can use webshell.io as an HTTP gateway between client applications and API servers side or client side so that webshell.io can process and condense the data to just the fields that the client needs and also providing the viws that you don’t have to make again and again. This helps reduce the number of requests that the client needs to make as well as the amount of data transported to clients.</p>
 </section>
-
 <section id="apis-endpoints-as-js-object">
   <h2>APIs endpoints as Javascript objects</h2>
 
@@ -65,17 +47,13 @@
   <p>Because lots of applications need a programming logic,  or because start-ups use many APIs logic into their code. For example,  Siri combines up to 55 APIs together (Speech to text, Natural language processing, POI database etc…) and if you use APIs as Objects, It will be easier to make so advanced applications.<br />
   We can now, thanks to webshell.io, really talk of programming the web.</p>
 
-  <p>Why we have chosen Javascript?</p>
+  <h4>Why we have chosen Javascript?</h4>
 
   <p>JavaScript has long been the de facto standard for client-side APIs and mashups with Googlemaps, Youtube etc... While nearly all client API code is written in JavaScript, server-side APIs like Twitter or Facebook can be called in PHP, Python, Ruby, Java, and numerous other languages. Life as a web and mobile developer would be much simpler if a single language was used everywhere.<br />
   Because JavaScript dominates APIs in the browser , it makes sense to use it for server side APIs as well.<br />
   In the same way Node.js made Javascript the unique language to execute code server-side and client-side, Webshell, built on Node.js too, lets you call APIs with a single language : Javascript.</p>
 
-
-  <p>Why we have chosen Node.js?</p>
-
-
-
+  <h4>Why we have chosen Node.js?</h4>
 
   <p>Performance and scalability for I/O workloads.  Of workloads performed during script execution, a significant percentage  is I/O bound. CPU loads are limited to in-memory tasks like joining and projections. Blocking I/O was out of the equation for supporting such workloads.
   Operability. We need to be able to monitor the runtime, know what is going on, and react quickly when things go wrong. Furthermore, integrating with API logging and monitoring tools is a prerequisite for bringing in a new technology stack.</br />
@@ -132,10 +110,31 @@
 </section>
 <section id="fs">
   <h2>File system</h2>
+  <p>You can store your script / wrapper to an API in our file system. You can store all resources needed for your scripts (images, css, additionnal javascript library).</p>
+  <p>Your file system is versionned using git or github. You can supress a file by mistake ;)</p>
+  <p>To let you manipulate these file in your code, we have implemented some builtins function to let you manage them in a simple way:</p>
+  <pre class="prettyprint">//I'm logged in as `thyb`,
+//I can write in my user directory some data (here in a file named `test`)
+write({src: fs.thyb.test, content: "Hello World"});
+
+/*
+** read and display the test file
+*/
+echo(cat(fs.thyb.test));
+
+//execute thyb helloWorld file (Webshell script)
+fs.thyb.helloWorld();
+
+//chain directories
+fs.login.directory1.subDirectory2.file
+</pre><br />
+<p>Currently, everybody can read and execute files of everybody but only you can write in your file system. We're working on private scripts, it will coming soon ;). In most case, it's not a problem thanks the APIKey manager, You can make scripts using lots of private key stored in the APIKey manager that stay private and don't display them in your source.</p>
+<p>You can use this file system to share data or scripts with the community</p>
 </section>
 
 <section id="c9">
   <h2>Cloud9 IDE</h2>
+  <p>To manage your file (cf File system), we have integrated Cloud9 IDE adapted to the Webshell files API. You can run your scripts in your browser</p>
 </section>
 
 <section id="shared-execution-environment">
