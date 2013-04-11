@@ -31,6 +31,39 @@
   By using a Javascript interface to declare API calls, their interdependencies, you can cut down the number of lines of code from hundreds of lines to a few, and the development time from entire sprints to mere hours. Using Javascript, you can create new consumer-centric interfaces that are optimized for your application’s requirements.<br />
   You can use webshell.io as an HTTP gateway between client applications and API servers side or client side so that webshell.io can process and condense the data to just the fields that the client needs and also providing the views that you don’t have to make again and again. This helps reduce the number of requests that the client needs to make as well as the amount of data transported to clients.</p>
 </section>
+<section id="getting-started">
+  <h2>Getting started</h2>
+  <p>All you need to get started is a Webshell Account, a supported browser, and a basic understanding of JavaScript. If you're new to JavaScript, MDN's JavaScript wiki has a lot of information.</p></section>
+  <p>Create an app in your <a href="/dashboard">Dashboard</a> which will generate a valid API Key.</p>
+
+  <h4>Hello World!</h4>
+  <p>The following example is the simplest app you can do with Webshell using the Javascript SDK:</p>
+<pre class="prettyprint linenums">&lt;!DOCTYPE HTML&gt;
+&lt;html lang=&quot;en-US&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Hello World!&lt;/title&gt;
+  &lt;script type=&quot;text/javascript&quot; src=&quot;http://code.jquery.com/jquery-1.8.2.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot; src=&quot;http://api.webshell.io/sdk/js?key={API_KEY}&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function() {
+  wsh.exec({
+    code: function() {
+      echo('Hello World!');
+    },
+    process: function(json, meta) {
+      $('body').append(meta.view);
+    }
+  })
+})
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre><br />
+  <p>You can find more information about the <a href="#executing-scripts/js-sdk">JS SDK here</a></p>
+</section>
+
 <section id="js-aas">
   <h2>Javascript as a Service</h2>
 

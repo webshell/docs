@@ -4,22 +4,12 @@ var menu = {
         'baseline': '',
         'submenu': {
             'intro': 'Introduction',
+            'getting-started': 'Getting started',
             'js-aas': 'Javascript as a service',
             'fs': 'File system',
             'apis-endpoints-as-js-object': 'APIs endpoints as JS Object',
             'auth': 'APIs Authentication made easy',
             'add-your-api': "Add your API",
-        }
-    },
-    'getting-started': {
-        'title': 'Getting Started',
-        'baseline': '',
-        'submenu': {
-            'prerequisites': 'Prerequisites',
-            'quick-start': 'Quick Start',
-            'hello-world-app': 'Hello World app',
-            'samples': 'Samples',
-            'build-and-develop-wsh': 'Build and develop Webshell'
         }
     },
     'writing-scripts': {
@@ -60,9 +50,13 @@ var menu = {
         'title': 'Add your API',
         'baseline': '',
         'submenu': {
-            'share': 'Share Scripts', 
-            'fork': 'Fork',
-            'pullrequest': 'Pull request',
+            'js-wrapper': 'Wrapper in Javascript',
+            'share-fork': 'Share Scripts / Fork', 
+            'generate-wadl': 'Generate from WADL',
+            'generate-swagger': 'Generate from swagger',
+            'generate-mashape': 'Generate from Mashape XML file',
+            'publish': 'Publish on the API Explorer (soon)',
+            'pullrequest': 'Pull request (soon)',
             'sync-github': 'Synchronize with Github (soon)'
         }
     },
