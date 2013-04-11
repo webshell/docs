@@ -93,20 +93,20 @@ wsh.exec({
   <p>We let you some space to store data and scripts on our platform. It let you write modular code to be reused in every project.</p>
   <p>To let you manipulate your files in a simple way, we have implemented some builtins function in the standart library of Webshell:</p>
   <pre class="prettyprint">/*
-** I'm logged in as `thyb`,
 ** I can write in my user directory some data (here in a file named `test`)
+** replace login by your login ;)
 */
-write({src: fs.thyb.test, content: "Hello World"});
+write({src: fs.login.test, content: "Hello World"});
 
 /*
 ** read and display the test file
 */
-echo(cat(fs.thyb.test));
+echo(cat(fs.login.test));
 
 /*
 ** Execute helloWorld file of `thyb` user
 */
-fs.thyb.helloWorld();
+fs.login.helloWorld();
 
 /*
 ** You can chain directories
@@ -204,7 +204,7 @@ $('document').ready(function() {
   <p>If you have a WADL, Swagger or Mashape XML file, it will be easy to integrate it into Webshell. We made some builtins function in the Webshell standart library that enable to generate Javascript files and documentation in HTML from these API description files. For little API with few endpoints, you can easily do a wrapper yourself. Example for metwit we saw in <a href="#js-aas" class="inter-link">Javascript as a service</a> chapter</p>
 
   <p>You would like to call it like <code>fs.yourNickname.weather({lat: "45.45", lng: "9.18"});</code> (replace your nickname by your nickname on webshell). You could just make something like that in your file system</p>
-  <pre class="prettyprint">yourNickname/
+  <pre class="prettyprint">login/
   weather/
     weather</pre>
   <p>In the weather file, write the following:</p>
@@ -220,7 +220,7 @@ get({
 });</pre>
   <p>It's a great way to make simple script with one functionnality.</p>
   <p>Now you want to make the integrate the complete metwit API, you could use the following structure:</p>
-  <pre class="prettyprint">yourNickname/
+  <pre class="prettyprint">login/
   metwit/
     metwit</pre>
   <p>With the following code in metwit file</p>
@@ -240,7 +240,7 @@ get({
     echo('Todo :)');
   }
 }</pre>
-<p>Then you can call your script like that: <code>fs.yourNickname.metwit.weather({lat: "45.45", lng: "9.18"});</code> or <code>fs.yourNickname.metwit.anotherMethod();</code></p>
+<p>Then you can call your script like that: <code>fs.login.metwit.weather({lat: "45.45", lng: "9.18"});</code> or <code>fs.login.metwit.anotherMethod();</code></p>
 <p>Once your script stabilized, you can publish it on the <a href="http://webshell.io/explorer">API Explorer</a>.</p>
 <p>You can configure the authentication of your API using a conf.json file in your metwit folder (cf <a href="#add-your-api/conf-auth">Add your API / conf.json</a>).</p>
 </section>
