@@ -16,18 +16,19 @@ var menu = {
         'title': 'Writing Scripts',
         'baseline': '',
         'submenu': {
-            'builtins': 'Builtins',
+            'stdlib': 'Standart library (builtin functions)',
             'auth': 'Authentication',
             'args': 'Arguments',
             'data-format': 'Data format',
             'html-views': 'HTML Views',
             'versionning': 'Versionning',
+            'unify': 'Unify APIs using contract (soon)',
             'events-triggers': 'Events/Triggers (soon)',
-            'unify': 'Unify APIs using contract (soon)'
+            'ui-layer': 'UI Layer (soon)'
         }
     },
     'stdlib': {
-        'title': 'Builtins/StdLib',
+        'title': 'Standart Library',
         'baseline': '',
         'submenu': {
             'display': 'Display/debug',
