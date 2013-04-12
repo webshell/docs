@@ -182,30 +182,32 @@ m.directions({
   origin: "Cityhall, San Francisco, CA",
   destination: "Liberty Island, New York"
 });
-</pre>
+</pre><button class="btn" id="run-gmaps">Run</button>
 <div id="demo-gmap"></div>
 <script type="text/javascript">
 $('document').ready(function() {
-  wsh.exec({
-    code: function() {
-      var m = apis.google.maps({height: "215px"})
-      m.center("San francisco")
-      m.zoom(9)
+  $('#run-gmaps').click(function() {
+    wsh.exec({
+      code: function() {
+        var m = apis.google.maps({height: "215px"})
+        m.center("San francisco")
+        m.zoom(9)
 
-      m.addMarker({
-        address: "Cityhall, San Francisco, CA",
-        icon: apis.gravatar("team@webshell.io", {view: null})
-      });
+        m.addMarker({
+          address: "Cityhall, San Francisco, CA",
+          icon: apis.gravatar("team@webshell.io", {view: null})
+        });
 
-      m.directions({
-        origin: "Cityhall, San Francisco, CA",
-        destination: "Liberty Island, New York"
-      });
-    },
-    process: function(data, meta) {
-      $('#demo-gmap').append(meta.view);
-    }
-  })
+        m.directions({
+          origin: "Cityhall, San Francisco, CA",
+          destination: "Liberty Island, New York"
+        });
+      },
+      process: function(data, meta) {
+        $('#demo-gmap').append(meta.view);
+      }
+    })
+  });
 });</script>
 
 </section>

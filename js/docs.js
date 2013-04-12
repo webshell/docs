@@ -16,9 +16,11 @@ var menu = {
         'title': 'Writing Scripts',
         'baseline': '',
         'submenu': {
-            'stdlib': 'Standart library (builtin functions)',
-            'auth': 'Authentication',
-            'args': 'Arguments',
+            'intro': 'Introduction',
+            'stdlib': 'Standard library (builtin functions)',
+            'args': 'Scripts Arguments',
+            'apis': 'APIs',
+            'auth': 'Auth and APIKey management',
             'data-format': 'Data format',
             'html-views': 'HTML Views',
             'versionning': 'Versionning',
@@ -28,7 +30,7 @@ var menu = {
         }
     },
     'stdlib': {
-        'title': 'Standart Library',
+        'title': 'Standard Library',
         'baseline': '',
         'submenu': {
             'display': 'Display/debug',

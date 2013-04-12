@@ -1,0 +1,218 @@
+
+<section id="intro">
+	<h2>Introduction</h2>
+	<p>Webshell execute the javascript you've sent. This Javascript contains lots of features to let your use APIs easily.</p>
+	<p>You have 2 ways to make scripts using Webshell</p>
+	<ul>
+		<li>Using the Webshell API and/or SDKs</li>
+		<li>Using the file system with the <a href="http://webshell.io/editor">API Editor (Cloud9)</a> to store your scripts on the <a href="#overview/fs">File system</a></li>
+	</ul>
+	<p>To use and execute your scripts, you can go in <a href="#">Executing scripts - documentation page</a> for more information.</p>
+	<p>If you make your script in the API Editor, you'll be able to use your script in a simple way on all your projects</p>
+	<p>Javascript alone only allow you to make some calculation like in your Browser Console but</p>
+</section>
+<section id="stdlib">
+	<h2>Standard Library - Builtin functions</h2>
+	<p>We made a serie of function called Standard Library. The complete list of the builtin functions in the standard library is available <a href="#stdlib">here</a>. The following chapter will show you some usage examples.</p>
+	<p>You have some function to make HTTP request easily:<br /><code>http()</code>,<code>get()</code>,<code>post()</code>,<code>put()</code>,<code>delete()</code>,<code>patch()</code></p>
+	<p>It's a top layer of <code>http</code> module of node.js that allow you to make all request you need to any APIs</p>
+	<p>To debug your code, we added <code>echo()</code> and <code>dump()</code> builtins to print what you want</p>
+	
+	<p>For example, to read Hacker News RSS using Webshell:</p>
+	<pre class="prettyprint">var hn = get({
+  url: 'https://news.ycombinator.com/rss',
+  format: 'xml'
+});
+//dump the #1 link on Hacker News
+dump(hn.rss.channel[0].item[0]);</pre><button class="btn" id="runYCRss">Run</button>
+	<div id="ycRss">
+	</div>
+	<script type="text/javascript">
+$('document').ready(function() {
+	$('#runYCRss').click(function() {
+		wsh.exec({
+			code: function() {
+				var hn = get({
+				  url: 'https://news.ycombinator.com/rss',
+				  format: 'xml'
+				});
+
+				dump(hn.rss.channel[0].item[0]);
+			},
+			process: function(data, meta) {
+				$('#ycRss').append(meta.view);
+			}
+		});	
+	})
+});
+</script><br />
+	<p>You write it synchronously but behind, we parallelize all http request which can be parallelized ;).</p>
+	<p>We've made also all necessary functions for manage your File System: <br /><code>fs</code>,<code>cat()</code>,<code>require()</code>,<code>exists()</code>,<code>rm()</code>,<code>mv()</code>,<code>write()</code>,<code>mkdir()</code>,<code>ls()</code></p>
+	<p>You can easily cache data from HTTP request in these files or simply put all your scripts in to make reusable code for all your projects</p>
+
+	<pre class="prettyprint">var res, login = 'thyb'; //replace 'thyb' by your Webshell login
+//fs['thyb'] === fs.thyb
+if (exists(fs[login].cacheHN)) { 
+  res = fs[login].cacheHN()
+}
+else {
+  res = get({
+    url: 'https://news.ycombinator.com/rss',
+    format: 'xml'
+  });
+
+  //For security reason, to write content in your files,
+  //you need to be authentified with your private key on your backend
+  fs[login].cacheHN = res; 
+}
+dump(res.rss.channel[0].item[0]);</pre><br />
+<p>If the cacheHN file exists in your workspace, you just load the JSON in a variable else it write in cacheHN the data retrieved from <code>http://news.ycombinator.com/rss</code>. Up to you to add a timestamp to expire the cache after n hours ;)</p>
+
+<p>When many builtins render views in your script, it just push the view in the result stack (cf: <a href="#executing-scripts">Executing Scripts</a>)</p>
+
+<p><code>render()</code> builtin let you push a view in the result stack to display a nice HTML View where you want.</p>
+<pre class="prettyprint">var hn = get({
+  url: 'https://news.ycombinator.com/rss',
+  format: 'xml'
+});
+render(hn, { view: '&lt;ul>\
+&lt;% for (var item in data.rss.channel[0].item) { %&gt;\
+&lt;li&gt;\
+  &lt;a href="&lt;%= data.rss.channel[0].item[item].link[0] %&gt;"&gt;\
+    &lt;%= (parseInt(item) + 1) %>. &lt;%= data.rss.channel[0].item[item].title[0] %&gt;\
+  &lt;/a>&lt;br /&gt;&lt;span&gt;(&lt;%= data.rss.channel[0].item[item].link[0] %&gt;)&lt;/span&gt;\
+&lt;/li&gt;\
+&lt;% } %&gt;\
+&lt;/ul&gt;' });</pre><button id="renderHN" class="btn">Run</button>
+	<style>
+	#hnView ul li a { color: black; }
+	#hnView ul li span { color: #999; font-size: 0.7em; position: relative; top: -7px;}
+	</style>
+	<div id="hnView">
+	</div>
+	<script type="text/javascript">
+$(document).ready(function() {
+	$('#renderHN').click(function() {
+		wsh.exec({
+			code: function() {
+				var hn = get({
+				  url: 'https://news.ycombinator.com/rss',
+				  format: 'xml'
+				});
+				render(hn, { view: '<ul>\
+				<% for (var item in data.rss.channel[0].item) { %>\
+				<li>\
+					<a href="<%= data.rss.channel[0].item[item].link[0] %>">\
+						<%= (parseInt(item) + 1) %>. <%= data.rss.channel[0].item[item].title[0] %>\
+					</a><br /><span>(<%= data.rss.channel[0].item[item].link[0] %>)</span>\
+				</li>\
+				<% } %>\
+				</ul>' });
+			},
+			process: function(data, meta) {
+				$('#hnView').append(meta.view);
+			}
+		})
+	})
+});
+	</script><br />
+	<p>The view can of course be stored in a file:</p>
+	<pre class="prettyprint">var hn = get({
+  url: 'https://news.ycombinator.com/rss',
+  format: 'xml'
+});
+render(hn, { view: cat(fs.thyb['hnView.html']) });</pre>
+</section>
+<section id="args">
+	<h2>Arguments</h2>
+	<p>Often, you need to send some variables to your script. You could concatenate your user input in the Javascript sent to Webshell but it would create some security issue : Webshell Injection (like SQL Injection but with Webshell code). We provide a <code>args</code> parameter to give string to escape.</p>
+	<pre class="prettyprint">get({
+  "url":"https://api.metwit.com/v2/weather",
+  "params":{
+    "location_lat": args.lat,
+    "location_lng": args.lng
+  }
+});</pre>
+<p>You can do any test your want for validate input data. If you stored it in the file system, you can all it like that <code>fs.login.scriptName({lat: "45.45", lng: "9.18"});</code> replacing <code>login</code> by your login and <code>scriptName</code> by the name of the file.</p>
+<p>If you execute this script using the Webshell API or the SDK, you have a parameter args where you can put parameter in json.</p>
+<pre class="prettyprint">wsh.exec({
+  code: function() {
+    get({
+      url:"https://api.metwit.com/v2/weather",
+      params:{
+        location_lat: args.lat,
+        location_lng: args.lng
+      }
+    });
+  },
+  args: {
+    lat: $('#lat').val(), //here lat and lng are in an &lt;input id="lat"&gt;
+    lng: $('#lng').val() //and &lt;input id="lng"&gt;
+  },
+  success: function(data) {
+    //TODO: do something with `data`
+  }
+});</pre><br />
+<p>In the Webshell API, you can directly set arguments in the URL: <pre>http://api.webshell.io?code=get(%7B%0A%20%20%22url%22%3A%22https%3A%2F%2Fapi.metwit.com%2Fv2%2Fweather%22%2C%0A%20%20%22params%22%3A%7B%0A%20%20%20%20%22location_lat%22%3A%20args.lat%2C%0A%20%20%20%20%22location_lng%22%3A%20args.lng%0A%20%20%7D%0A%7D)%3B&lat=45.45&lng=9.18</pre></p>
+</section>
+
+<section id="apis">
+	<h2>APIs</h2>
+	<p>All APIs in Webshell are made using these builtins and are stored in the File System in <code>bin</code> user.</p>
+	<pre class="prettyprint">fs.bin.spotify.searchAlbum('plastic beach');</pre><br />
+
+    <p>To simplify the use of APIs, we setted a global variable <code>apis</code> to <code>fs.bin</code>. So you can write the same code in this way:</p>
+
+    <pre class="prettyprint">apis.spotify.searchAlbum('plastic beach');</pre><br />
+    
+    <p>All APIs on the platform are documented in the <a href="http://webshell.io/explorer">API Explorer</a> and you can checkout our <code>bin</code> user on <a href="https://github.com/webshell/APIs">github - webshell/APIs</a>.</p>
+
+    <p>As each workspace on the file system is share, everybody can call scripts on bin. You can visit the <a href="http://webshell.io/explorer">API explorer</a> to see featured APIs and see how to use them.</p>
+ 	
+ 	<p>The first arguments is used to parametrize the API. The second is for configure Webshell (ie: you can override the default view to render the data as you want). It's the same for your scripts on the File System ;)</p>
+
+	<pre class="prettyprint">apis.tumblr.getPosts({
+  "base-hostname": "webshellnews",
+  "limit": 1
+}, {
+  view: cat(fs.thyb.tumblrView.sandbox['posts.html'], {view: null})
+});</pre>
+</section>
+<section id="auth">
+	<h2>Auth and APIKey management</h2>
+	<p>To be authenticated should take a maximum of 5 minutes but in the reality, it tooks lots more time. You need to find a good OAuth library which support the API you want to use and setup your backend to receive the callback and so on... On Webshell, you have just to setup your API Key in the <a href="http://webshell.io/dashboard">API Key manager - Dashboard</a>
+	</p>
+
+	<pre class="prettyprint">apis.facebook.auth().success(function() {
+  //this is executed when the user is authenticated to facebook
+  return apis.facebook.me(); //return user information
+});</pre>
+
+	<p>We manage query auth, http basic auth, oauth 1 & 2 and more...</p>
+	<p>When you create an app on facebook, we associate a callback for OAuth2 and OAuth1 callbacks.</p>
+
+</section>
+<section id="data-format">
+	<h2>Data format</h2>
+	<p></p>
+</section>
+<section id="views">
+	<h2>HTML Views</h2>
+	<p></p>
+</section>
+<section id="versionning">
+	<h2>Versionning</h2>
+	<p></p>
+</section>
+<section id="unify">
+	<h2>Unify APIs using Contract (soon)</h2>
+	<p></p>
+</section>
+<section id="events-triggers">
+	<h2>Events/Triggers (soon)</h2>
+	<p></p>
+</section>
+<section id="ui-layer">
+	<h2>UI Layer (soon)</h2>
+	<p></p>
+</section>
