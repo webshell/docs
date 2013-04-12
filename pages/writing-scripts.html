@@ -183,13 +183,23 @@ render(hn, { view: cat(fs.thyb['hnView.html']) });</pre>
 	<p>To be authenticated should take a maximum of 5 minutes but in the reality, it tooks lots more time. You need to find a good OAuth library which support the API you want to use and setup your backend to receive the callback and so on... On Webshell, you have just to setup your API Key in the <a href="http://webshell.io/dashboard">API Key manager - Dashboard</a>
 	</p>
 
+	<h4>Exemple with Facebook API</h4>
+	<p>First create an application on Webshell in your <a href="http://webshell.io/dashboard">dashboard</a> to get a valid APIKey for your domain.</p>
+	<a href="/images/webshell-app.png"><img src="/images/webshell-app.png" /></a>
+	<p>When you create an app on Webshell, we associate you a callback for OAuth2 and OAuth1 callbacks and manage it for you.</p>
+
+	<p>You can store all your API Keys in the API Keys manager,  in this app using the API Key manager.</p>
+	<p>Then, you create an app on <a target="_blank" href="https://developers.facebook.com/apps">developers.facebook.com</a>
+	<a href="/images/facebook-app-conf.png"><img src="/images/facebook-app-conf.png" alt="facebook app conf" /></a>
+	<p>Once your facebook app is configured, you just have to add the Facebook API Key in the Webshell App using "Add an API Key" button and choose facebook: <img src="/images/webshell-apikey-1.png" /><br />And set your API Keys and authorisation scopes: <img src="/images/webshell-apikey-2.png" /></p>
+
+	<p>Now, in all your app, you can auth your user in your app using your API Keys:</p>
 	<pre class="prettyprint">apis.facebook.auth().success(function() {
   //this is executed when the user is authenticated to facebook
   return apis.facebook.me(); //return user information
 });</pre>
 
 	<p>We manage query auth, http basic auth, oauth 1 & 2 and more...</p>
-	<p>When you create an app on facebook, we associate a callback for OAuth2 and OAuth1 callbacks.</p>
 
 </section>
 <section id="data-format">
