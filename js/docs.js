@@ -21,7 +21,6 @@ var menu = {
             'args': 'Scripts Arguments',
             'apis': 'APIs',
             'auth': 'Auth and APIKey management',
-            'data-format': 'Data format',
             'html-views': 'HTML Views',
             'versionning': 'Versionning',
             'unify': 'Unify APIs using contract (soon)',
