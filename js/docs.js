@@ -21,11 +21,12 @@ var menu = {
             'args': 'Scripts Arguments',
             'apis': 'APIs',
             'auth': 'Auth and APIKey management',
-            'html-views': 'HTML Views',
+            'views': 'HTML Views',
             'versionning': 'Versionning',
             'unify': 'Unify APIs using contract (soon)',
+            'ui-layer': 'UI Layer (soon)',
+            'crons': 'Crons',
             'events-triggers': 'Events/Triggers (soon)',
-            'ui-layer': 'UI Layer (soon)'
         }
     },
     'stdlib': {
@@ -111,6 +112,9 @@ var DocsRouter = Backbone.Router.extend({
 
 		$.get('./pages/' + page + '.html', {}, function(data) {
 			$('#content-docs').html(data);
+            $('body').animate({
+                scrollTop: 0
+            },0);
 			prettyPrint();
 			$(window).scroll(spyScroller);
 			$('#menu-docs li a').click(function() {

@@ -176,7 +176,10 @@ render(hn, { view: cat(fs.thyb['hnView.html']) });</pre>
   "limit": 1
 }, {
   view: cat(fs.thyb.tumblrView.sandbox['posts.html'], {view: null})
-});</pre>
+});</pre><br />
+	<h4>Versionning</h4>
+	<p>To not break your app when someone update his API, we version API (currently only on <code>bin</code> user). First version is <code>v0.1</code>. If you don't specify a version, it take automaticaly the latest version. A version is represented by a directory with the name of the version.</p>
+	<p>For your filesystem, we're looking to add a git or github repository to version it yourself.</p>
 </section>
 <section id="auth">
 	<h2>Auth and APIKey management</h2>
@@ -204,21 +207,57 @@ render(hn, { view: cat(fs.thyb['hnView.html']) });</pre>
 </section>
 <section id="views">
 	<h2>HTML Views</h2>
-	<p></p>
-</section>
-<section id="versionning">
-	<h2>Versionning</h2>
-	<p></p>
+	<p>Each scripts made on Webshell optionaly can render a View associated with datas. This view allow your to render directly some widget / UI Component in a simple way. It's thanks these views we can integrate client side API like google maps</p>
+	
+	<p>We saw the example of Hacker News view in standard library chapter, it's the same issue for every API: You don't want to make a view each time you want display a Twitter timeline or a tumblr Blog.</p>
+
+	<p>Every builtins function and APIs can take a second parameter in input: The Webshell options. These options let you configure how this method will be executed and if you want to override the view:</p>
+
+	<pre class="prettyprint">apis.twitter.search({q: "webshell"}, {view: "Your HTML View"});</pre>
+	<p>The template rendering engine used is EJS. The data returned by the function is accessible in the template in <code>data</code> global variable</p>
+	<pre class="prettyprint">apis.twitter.search({
+  q: 'webshell_'
+}, {
+  view: '&lt;ul style="margin: 0"&gt;' +
+'&lt;% for (i in data) { %&gt;' +
+'&lt;li style="padding: 10px 20px; border-bottom: 1px solid #EEE;"&gt;' +
+    '&lt;img src="&lt;%= data[i].profile_image_url %&gt;" style="float: left" /&gt;' +
+    '&lt;span style="display: block; position: relative; left: 10px; min-height: 50px"&gt;' +
+        '&lt;span style="display: block"&gt;&lt;strong&gt;&lt;%= data[i].from_user_name %&gt;&lt;/strong&gt; &lt;em style="color: #999"&gt;@&lt;%= data[i].from_user %&gt;&lt;/em&gt;&lt;/span&gt;' +
+        '&lt;span&gt;&lt;%= data[i].text %&gt;&lt;/span&gt;' +
+    '&lt;/span&gt;' +
+'&lt;/li&gt;' +
+'&lt;% } %&gt;' +
+'&lt;/ul&gt;'});</pre>
+
 </section>
 <section id="unify">
 	<h2>Unify APIs using Contract (soon)</h2>
-	<p></p>
-</section>
-<section id="events-triggers">
-	<h2>Events/Triggers (soon)</h2>
-	<p></p>
+	<p>Our goal is to unify all APIs by categories and contract</p>
+	<p>Categories contain contracts. A contract is a little script which describe what an API need to use this contract as input and out</p>
+	<p>Exemple:</p>
+	<pre class="prettyprint">unify.me({provider: "facebook"});</pre>
+	<p>The <code>me()</code> contract take only a provider in input to return your public profile data with standard output field. If you change the provider facebook by twitter, you'll get the same response with twitter's data (same fields)</p>
+	<p>Each API who want to implement a contract have to make a little script to say "how transform my API Data into a standard way". It's often just a new mapping of the data and input.</p>
+	<p>This unification of APIs will create some type of Data: <code>me()</code> contract will respond by a User type and a User type is described by specified fields name.</p>
+	<p>We're currently working on <code>me()</code>,<code>friends()</code> which return a list of <code>User</code>,<code>imagesAlbum()</code> which return an array of <code>Image</code>, <code>post()</code> to unify all post from twitter/facebook/google+ etc...</p>
 </section>
 <section id="ui-layer">
 	<h2>UI Layer (soon)</h2>
-	<p></p>
+	<p>Once unification done, we'll be able to make generic UI Component linked on unified data. For exemple, you want to display a card with all information about a user:</p>
+	<pre class="prettyprint">ui.userCard({
+  user: unify.me({provider: "facebook"})
+});</pre><br />
+	<p>With this syntaxe, you'll be able to display fastly a small card about a user from unified User datatype.</p>
+	<p>We complete list of UI Component will be soon available</p>
+</section>
+<section id="crons">
+	<h2>Crons</h2>
+	<p>Webshell will soon be able to support crons. In your dashboard, a new button will be available to create a new Cron from a script. You'll be able to configure when the cron have to be executed (every hours, every days, every weeks, every months...) and which callback call when a cron is executed</p>
+	<p>Cron are a MUST have to be able to make Events and Triggers on Webshell</p>
+</section>
+<section id="events-triggers">
+	<h2>Events/Triggers (soon)</h2>
+	<p>Events and trigger are the same thing used in IFTTT.com and Zapier.com. Events a made in API (exemple: newTweetEvent which is triggered when a new tweet is arrived in twitter. We launch a cron for you transparently which verify every n minutes if a new tweet is available and then you can trigger an action/a script of your choice. For exemple, when you receive a new tweet with "hello" in the message, you can send the tweet by email</p>
+	<p>These events will be based on unification layer</p>
 </section>
