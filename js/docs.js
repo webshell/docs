@@ -22,11 +22,9 @@ var menu = {
             'apis': 'APIs',
             'auth': 'Auth and APIKey management',
             'views': 'HTML Views',
-            'versionning': 'Versionning',
             'unify': 'Unify APIs using contract (soon)',
             'ui-layer': 'UI Layer (soon)',
-            'crons': 'Crons',
-            'events-triggers': 'Events/Triggers (soon)',
+            'crons': 'Crons - Events/Triggers (soon)'
         }
     },
     'stdlib': {
@@ -62,17 +60,17 @@ var menu = {
             'pullrequest': 'Pull request (soon)',
             'sync-github': 'Synchronize with Github (soon)'
         }
-    },
-    'monitoring': {
-        'title': 'Monitoring',
-        'baseline': '',
-        'submenu': {
-            'dashboard': 'Dashboard',
-            'analytics': 'Analytics (soon)',
-            '3rd-party-rate-limit-monitoring': '3rd-party rate limit monitoring',
-            'tos-monitoring': 'Terms of service monitoring (soon)'
-        }
     }
+    // 'monitoring': {
+    //     'title': 'Monitoring',
+    //     'baseline': '',
+    //     'submenu': {
+    //         'dashboard': 'Dashboard',
+    //         'analytics': 'Analytics (soon)',
+    //         '3rd-party-rate-limit-monitoring': '3rd-party rate limit monitoring',
+    //         'tos-monitoring': 'Terms of service monitoring (soon)'
+    //     }
+    // }
 }
 
 
