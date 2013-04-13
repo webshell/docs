@@ -40,6 +40,151 @@ get({
   }
 }</pre>
 </section>
-<section id="share-fork">
-  <h2>Share scripts / fork</h2>
+<section id="setup-auth">
+  <h2>Setup authentication : conf.json</h2>
+    <p>You may want to connect to any API, which is not present on the platform, or enable an authentification for users using your API. To do so, you have to write a configuration file describing the authentication method named <code>conf.json</code>. You can add this file through the API Editor. Here is how to write this JSON file, based on the facebook conf:</p>
+  <pre class="prettyprint">{ 
+  "displayName": "Facebook" // Displayed name on the platform
+  "base_url":"https://graph.facebook.com/", // All relative path requests will use this base
+  "default_auth":"oauth2", // Default authentication when using auth builtin
+  "auth":{ // Describes the different possible authentication modes
+    "none":{}, // If this line is present, you can still use non authenticated requests.
+    "manual": [[Manual Auth Object]], // Contains informations about a custom authentication scheme (see below)
+    "oauth2": [[OAuth 2 Object]], // Contains informations about OAuth 2 informations (see below)
+    "oauth1": [[OAuth 1 Object]], // Contains informations about OAuth 1 informations (see below)
+  },
+  "parameters": [[Parameters Object]] // Contains configurable global parameters array (see below)
+}</pre>
+
+  <br/><p>Depending on authentications modes the api uses, you can set different configuration object:<p>
+  <p><code>[[Manual Auth Object]]</code> is suited for simple authenticated requests based on http auth or unique apikey auth:</p>
+  <pre class="prettyprint">{
+  "httpauth":{ // To enable http authentication
+    "username":"{client_id}",
+    "password":"{client_secret}"
+  },
+  // "headers": { ... } to add some http headers
+  // "get": { ... } to add some url parameters
+  "format":"xml" // Force response format: "url" for url encoding, "json" for json encoding (default "json")
+  "parameters": [[Parameters Array]] // Contains configurable parameters array, relative to this mode (see below)
+}</pre>
+
+  <br/><p><code>[[OAuth2 Object]]</code> in based on facebook exemple:</p>
+  <pre class="prettyprint">{
+  "authorize":{ // Contains informations about the authorize step (auth popup)
+    "url":"https://graph.facebook.com/oauth/authorize", // Authentication popup url
+    "params":{ // Contains request parameters. The provider's documentation must specify which params are required.
+      "client_id":"{client_id}",
+      "redirect_uri":"{_callback_url}?{_callback_args}", 
+      "scope":"{scope}" 
+    }
+  },
+  "access_token":{ // Contains informations about the access_token step (auth token recuperation)
+    "url":"https://graph.facebook.com/oauth/access_token", // Request's url
+    "format":"url", // Force response format: "url" for url encoding, "json" for json encoding (default "json")
+    // "headers": { ... } to add some http headers
+    "params":{ // Request's parameters
+      "client_id":"{client_id}",
+      "client_secret":"{client_secret}",
+      "redirect_uri":"{_callback_url}?{_callback_args}",
+      "code":"{_code}"
+    }
+  },
+  "request":{ // Informations added to authenticated requests
+    // "headers": { ... } to add some http headers
+    "format": "json" // Force request's body encoding (http default: url encoding)
+    "get":{ // Added url parameters
+      "oauth_token":"{_access_token}"
+    },
+  },
+  "parameters": [[Parameters Array]] // Contains configurable parameters array, relative to this mode (see below)
+}</pre>
+  <p>You can use special keywords between braces <code>{...}</code> to include special values (every of them begins with an underscore):<ul>
+    <li><code>{_callback_url}</code> gives the auth callback url to webshell</li>
+    <li><code>{_callback_args}</code> contains the parameters to be passed in the callback. Some providers has a "state" pararameter, others may accept them in the callback url.</li>
+    <li><code>{_code}</code> in the "access_token" part contains the auth code passed to the callback</li>
+    <li><code>{_access_token}</code> in the "request" part contains the access token (often named "oauth_token") received after the authentication process</li>
+  </ul></p>
+
+  <br/><p><code>[[OAuth1 Object]]</code> based on twitter exemple:</p>
+  <pre class="prettyprint">{
+  "request_token":{ // Contains informations about the request token step (non authorized token recuperation)
+    "url":"https://api.twitter.com/oauth/request_token", // Request's url
+    "params":{ // OAuth parameters (standard names)
+      "oauth_consumer_key":"{client_id}",
+      "oauth_callback":"{_callback_url}?{_callback_args}"
+    }
+  },
+  "authorize":{ // Contains informations about the authorize step (auth popup)
+    "url":"https://api.twitter.com/oauth/authenticate" // Authentication popup url
+  },
+  "access_token":{ // Contains informations about the access_token step (receive authorized token)
+    "url":"https://api.twitter.com/oauth/access_token", // Request's url
+    "params":{ // OAuth parameters (standard names)
+      "oauth_consumer_key":"{client_id}"
+    }
+  },
+  "request":{ // Request's parameters
+    // "headers": { ... } to add some http headers
+    "format":"json", // Force request's body encoding (http default: url encoding)
+    "params":{ // OAuth parameters (standard names)
+      "oauth_consumer_key":"{client_id}"
+    }
+  },
+  "parameters": [[Parameters Array]] // Contains configurable parameters array, relative to this mode (see below)
+}</pre>
+
+  <br/><p><code>[[Parameters Array]]</code> contains every configurable parameter from the API Key Manager and can be use in the authentication mode object "manual", "oauth1" or "oauth2" when used into braces (e.g. "{client_id}"). Here is an exemple for facebook configuration:</p>
+<pre class="prettyprint">[
+  { "name":"client_id", "type":"string" },
+  { "name":"client_secret", "type":"string" },
+  { 
+    "name":"scope", // Name of the parameter
+    "type":"string", // Type of the parameter ("string",........)
+    "separator":",", // Separator for multiples values
+    "cardinality":"*", // Number of possible values number or "*" (default: 1)
+    "values": { // Possible values and descriptions
+      "read_friendlists":"Provides access to any friend lists the user created. All user's friends are provided as part of basic data, this extended permission grants access to the lists of friends a user has created, and should only be requested if your application utilizes lists of friends.",
+      "read_insights":"Provides read access to the Insights data for pages, applications, and domains the user owns.",
+      "read_mailbox":"Provides the ability to read from a user's Facebook Inbox.",
+      "read_requests":"Provides read access to the user's friend requests",
+      "read_stream":"Provides access to all the posts in the user's News Feed and enables your application to perform searches against the user's News Feed",
+      ...
+    }
+  } 
+]</pre>
+
+  <br /><p>You can see full examples of <a href="http://api.webshell.local/apis/facebook/v0.1/conf.json">facebook's conf.json</a> or <a href="http://api.webshell.local/apis/twitter/v0.1/conf.json">twitter's conf.json</a></p> 
+</section>
+<section id="generate-from-wadl">
+  <h2>Generate from WADL</h2>
+  <p>WADL is a standard for describing REST API using a XML file. We've made a builtin which generate javascript compatible with Webshell from a WADL File</p>
+  <pre class="prettyprint">wadl({
+  xml: fs.username.path['wadl.xml'],
+  output: fs.username.apiName
+})</pre><br />
+  <p>It will write in <code>fs.username.apiName</code> javascript generated from <code>fs.username.path['wadl.xml']</code>. Change paths by your own.</p>
+  <p>If the WADL need authentication, you need to write your conf.json manually because WADL's file don't contains any information about the authentication.</p>
+  <p>As the documentation of the API is contained in the WADL File, we generate HTML files to make a pretty and simple docs. To read documentation, use <code>docs()</code> builtin function</p>
+</section>
+<section id="generate-from-swagger">
+  <h2>Generate from Swagger</h2>
+  <p>Swagger is a new format for describing REST API using a JSON file. We've made a builtin which generate javascript compatible with Webshell from a Swagger File</p>
+  <pre class="prettyprint">swagger({
+  xml: fs.username.path['swagger.json'],
+  output: fs.username.apiName
+})</pre><br />
+  <p>It will write in <code>fs.username.apiName</code> javascript generated from <code>fs.username.path['swagger.json']</code>. Change paths by your own.</p>
+  <p>If the API need authentication, you need to write your conf.json manually because Swagger's file don't contains any information about the authentication.</p>
+  <p>Currently, the documentation is not generated from Swagger but we're working on it.</p>
+</section>
+<section id="generate-from-mashape">
+  <h2>Generate from Mashape XML File</h2>
+  <p>Mashape is an API Hub with an API to access their API description. This XML is based on any standard but was made nicely. Authentication information is available in the XML so, we generate for you the configuration file (conf.json)</p>
+  <pre class="prettyprint">mashape({
+  xml: fs.username.path['mashape-api.xml'],
+  output: fs.username.apiName
+})</pre><br />
+  <p>It will write in <code>fs.username.apiName</code> javascript generated from <code>fs.username.path['mashape.xml']</code>. Change paths by your own.</p>
+  <p>Currently, the documentation is not generated from Swagger but we're working on it.</p>
 </section>

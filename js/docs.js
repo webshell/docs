@@ -53,10 +53,10 @@ var menu = {
         'baseline': '',
         'submenu': {
             'js-wrapper': 'Wrapper in Javascript',
-            'share-fork': 'Share Scripts / Fork', 
-            'generate-wadl': 'Generate from WADL',
-            'generate-swagger': 'Generate from swagger',
-            'generate-mashape': 'Generate from Mashape XML file',
+            'setup-auth': 'Setup Authentication: conf.json', 
+            'generate-from-wadl': 'Generate from WADL',
+            'generate-from-swagger': 'Generate from swagger',
+            'generate-from-mashape': 'Generate from Mashape XML file',
             'publish': 'Publish on the API Explorer (soon)',
             'pullrequest': 'Pull request (soon)',
             'sync-github': 'Synchronize with Github (soon)'
