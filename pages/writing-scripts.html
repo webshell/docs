@@ -185,7 +185,8 @@ render(hn, { view: cat(fs.thyb['hnView.html']) });</pre>
 	<h2>Auth and APIKey management</h2>
 	<p>To be authenticated should take a maximum of 5 minutes but in the reality, it tooks lots more time. You need to find a good OAuth library which support the API you want to use and setup your backend to receive the callback and so on... On Webshell, you have just to setup your API Key in the <a href="http://webshell.io/dashboard">API Key manager - Dashboard</a>
 	</p>
-
+	<p>Flow diagram of OAuth2 authentication using Webshell:<br />
+		<img src="http://webshell.io/images/oauth2_scheme.png" /></p>
 	<h4>Exemple with Facebook API</h4>
 	<p>First create an application on Webshell in your <a href="http://webshell.io/dashboard">dashboard</a> to get a valid APIKey for your domain.</p>
 	<img src="./images/webshell-app.png" />
