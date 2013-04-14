@@ -51,7 +51,7 @@ var menu = {
         'title': 'Add your API',
         'baseline': '',
         'submenu': {
-            'js-wrapper': 'Wrapper in Javascript',
+            'js-wrapper': 'API Wrapper in Javascript',
             'setup-auth': 'Setup Authentication: conf.json', 
             'generate-from-wadl': 'Generate from WADL',
             'generate-from-swagger': 'Generate from swagger',
