@@ -189,13 +189,13 @@ render(hn, { view: cat(fs.thyb['hnView.html']) });</pre>
 		<img src="http://webshell.io/images/oauth2_scheme.png" /></p>
 	<h4>Exemple with Facebook API</h4>
 	<p>First create an application on Webshell in your <a href="http://webshell.io/dashboard">dashboard</a> to get a valid APIKey for your domain.</p>
-	<img src="./images/webshell-app.png" />
+	<img src="http://webshell.github.io/docs/images/webshell-app.png" />
 	<p>When you create an app on Webshell, we associate you a callback for OAuth2 and OAuth1 callbacks and manage it for you.</p>
 
 	<p>You can store all your API Keys in the API Keys manager,  in this app using the API Key manager.</p>
 	<p>Then, you create an app on <a target="_blank" href="https://developers.facebook.com/apps">developers.facebook.com</a>
-	<a href="./images/facebook-app-conf.png"><img src="./images/facebook-app-conf.png" alt="facebook app conf" /></a>
-	<p>Once your facebook app is configured, you just have to add the Facebook API Key in the Webshell App using "Add an API Key" button and choose facebook: <img src="./images/webshell-apikey-1.png" /><br />And set your API Keys and authorisation scopes: <img src="./images/webshell-apikey-2.png" /></p>
+	<a href="http://webshell.github.io/docs/images/facebook-app-conf.png"><img src="http://webshell.github.io/docs/images/facebook-app-conf.png" alt="facebook app conf" /></a>
+	<p>Once your facebook app is configured, you just have to add the Facebook API Key in the Webshell App using "Add an API Key" button and choose facebook: <img src="http://webshell.github.io/docs/images/webshell-apikey-1.png" /><br />And set your API Keys and authorisation scopes: <img src="http://webshell.github.io/docs/images/webshell-apikey-2.png" /></p>
 
 	<p>Now, in all your app, you can auth your user in your app using your API Keys:</p>
 	<pre class="prettyprint">apis.facebook.auth().success(function() {
