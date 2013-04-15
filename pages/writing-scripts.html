@@ -188,9 +188,7 @@ render(hn, { view: fs('./hnView.html') });</pre>
 	<pre class="prettyprint">apis.tumblr.getPosts({
   "base-hostname": "webshellnews",
   "limit": 1
-}, {
-  view: cat(fs.thyb.tumblrView.sandbox['posts.html'], {view: null})
-});</pre><br />
+}, { view: fs.thyb.tumblrView.sandbox['posts.html'] });</pre><br />
 	<h4>Versionning</h4>
 	<p>To not break your app when someone update his API, we version API (currently only on <code>bin</code> user). First version is <code>v0.1</code>. If you don't specify a version, it take automaticaly the latest version. A version is represented by a directory with the name of the version.</p>
 	<p>For your filesystem, we're looking to add a git or github repository to version it yourself.</p>
