@@ -146,9 +146,13 @@ Hello World<br /><br />
   url: 'mydomain.com',
   body: http.multipart({a:'x',b:'y'}), // request's content-type will be auto-ajusted to "multipart/form-data"
 };</pre></p>
+		<p>Send a custom multipart/form-data request:<pre class="prettyprint">post({
+  url: 'mydomain.com',
+  body: http.multipart({a:{format:'json',body:myObject},b:{format:'json',body:fs('mycontent.json')}),
+};</pre>request's content-type will be auto-ajusted to "multipart/form-data" but parts will have json type</p>
 		<p>Send a multipart/mixed request (body field):<pre class="prettyprint">...body:http.multipart(['x', 'y'])...</pre></p>
 		<p>Send a multipart/mixed in a multipart/form-data (body field):<pre class="prettyprint">...body:http.multipart({a:['x', 'y']})...</pre></p>
-		<p>Send data and files from multipart/mixed in a multipart/form-data (body field):<pre class="prettyprint">...body:http.multipart({a: 'x', b:http.files([fs.bump['x.jpg'], fs.bump['y.jpg']]) })</pre></p>
+		<p>Send data and files from multipart/mixed in a multipart/form-data (body field):<pre class="prettyprint">...body:http.multipart({a: 'x', b:http.files([fs.path.to.file, fs.path.to.file2]) })</pre></p>
 	</div>
 </section><br /><br />
 <section id="fs">
@@ -156,7 +160,7 @@ Hello World<br /><br />
 	<p>All scripts / APIs you store on webshell are in the File system of Webshell. You can access them, modify them, store new files and so on thanks the following builtins. The API Editor and all the Webshell platform is mainly based on these builtins. You can use this file system as a database or as a github repository directly executable on the cloud</p>
 	<div>
 		<h3>fs</h3>
-		<p>Manipulate path and execute files. fs is a proxy object so you can use it as a function or as an object: <code>fs('/bin/facebook/v0.1/facebook')</code> is the same thing than <code>fs.bin.facebook['v0.1'].facebook</code>, it return the fullpath of the file. You can note that you can chain folder using directly the name as an object or as an array. It's like a selector for execute/write/update a file.</p>
+		<p>Manipulate path and execute files. fs is a proxy object so you can use it as a function or as an object: <code>fs('/bin/facebook/v0.1/facebook')</code> is the same thing than <code>fs.bin.facebook['v0.1'].facebook</code>, it returns the fullpath of the file (indeed a WebshellPath object representing a fullpath). You can note that you can chain folder using directly the name as an object or as an array. It's like a selector for execute/write/update a file.</p>
 
 	</div><br />
 	<div>
@@ -176,7 +180,29 @@ Hello World<br /><br />
   path: (WebshellPath),
   content: (string)
 })</pre></p>
-		<p>write content in the given <code>WebshellPath</code></p>
+		<p>write content in the given <code>WebshellPath</code>.</p>
+		<p>An assignation to a WebshellPath object will also write the content into its path:<pre class="prettyprint">write({
+  path: fs.path.to.file
+  content: 'hello'
+});
+
+// is equivalent to:
+fs.path.to.file = 'hello'</pre></p>
+	</div><br />
+	<div>
+		<h3>stat()</h3>
+		<p><pre class="prettyprint">stat(path)</pre></p>
+		<p>Receive a file or directory informations for the given <code>path</code></p>
+		<p>ie: <pre class="prettyprint">stat(fs.login.tmp);</pre></p>
+		<p>If the file/directory exists, stat will return an object containing<br/>
+			<ul>
+				<li>- <code>mode</code>: your rights on this path</li>
+				<li>- <code>size</code>: size of the file</li>
+				<li>- <code>atime</code>: last access timestamp</li>
+				<li>- <code>mtime</code>: last modification timestamp</li>
+				<li>- <code>ctime</code>: creation timestamp</li>
+			</ul>
+		</p>
 	</div><br />
 	<div>
 		<h3>require()</h3>
