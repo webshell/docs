@@ -50,19 +50,19 @@ $('document').ready(function() {
 	<p>You can easily cache data from HTTP request in these files or simply put all your scripts in to make reusable code for all your projects</p>
 
 	<pre class="prettyprint">function getNews() {
-    var cache = fs('./cacheHN');
+    var cache = fs('.').cacheHN; // cacheHN file in the script's directory
 
     if (exists(cache) && stat(cache).mtime - new Date() < 1000 * 600) // 10 min cache
-      return cache;
+      return cache();
 
     // Assignation to a FS object will write into its path
-    // and writing an object is writing its JSON.
+    // and writing an object is writing its evaluable JSON.
     // 'get' returns an object from the parsed xml.
-    cache = get({
+    fs('.').cacheHN = get({
       url: 'https://news.ycombinator.com/rss',
       format: 'xml'
     });
-    return cache;
+    return cache();
 }
 
 dump(getNews().rss.channel[0].item[0]);</pre><br />
