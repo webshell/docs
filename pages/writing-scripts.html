@@ -1,4 +1,3 @@
-
 <section id="intro">
 	<h2>Introduction</h2>
 	<p>Webshell execute the javascript you've sent. This Javascript contains lots of features to let your use APIs easily.</p>
@@ -50,23 +49,24 @@ $('document').ready(function() {
 	<p>We've made also all necessary functions for manage your File System: <br /><code>fs</code>,<code>cat()</code>,<code>require()</code>,<code>exists()</code>,<code>rm()</code>,<code>mv()</code>,<code>write()</code>,<code>mkdir()</code>,<code>ls()</code></p>
 	<p>You can easily cache data from HTTP request in these files or simply put all your scripts in to make reusable code for all your projects</p>
 
-	<pre class="prettyprint">var res, login = 'thyb'; //replace 'thyb' by your Webshell login
-//fs['thyb'] === fs.thyb
-if (exists(fs[login].cacheHN)) { 
-  res = fs[login].cacheHN()
-}
-else {
-  res = get({
-    url: 'https://news.ycombinator.com/rss',
-    format: 'xml'
-  });
+	<pre class="prettyprint">function getNews() {
+    var cache = fs('./cacheHN');
 
-  //For security reason, to write content in your files,
-  //you need to be authentified with your private key on your backend
-  fs[login].cacheHN = res; 
+    if (exists(cache) && stat(cache).mtime - new Date() < 1000 * 600) // 10 min cache
+      return cache;
+
+    // Assignation to a FS object will write into its path
+    // and writing an object is writing its JSON.
+    // 'get' returns an object from the parsed xml.
+    cache = get({
+      url: 'https://news.ycombinator.com/rss',
+      format: 'xml'
+    });
+    return cache;
 }
-dump(res.rss.channel[0].item[0]);</pre><br />
-<p>If the cacheHN file exists in your workspace, you just load the JSON in a variable else it write in cacheHN the data retrieved from <code>http://news.ycombinator.com/rss</code>. Up to you to add a timestamp to expire the cache after n hours ;)</p>
+
+dump(getNews().rss.channel[0].item[0]);</pre><br />
+<p>If the cacheHN file exists in your workspace and has not beed modified for 10 minutes, you just use it to load the JSON content, else it writes into it the data retrieved from <code>http://news.ycombinator.com/rss</code>.</p>
 
 <p>When many builtins render views in your script, it just push the view in the result stack (cf: <a href="#executing-scripts">Executing Scripts</a>)</p>
 
@@ -116,12 +116,12 @@ $(document).ready(function() {
 	})
 });
 	</script><br />
-	<p>The view can of course be stored in a file:</p>
+	<p>The view can of course be stored in a file and directly passed to the view field:</p>
 	<pre class="prettyprint">var hn = get({
   url: 'https://news.ycombinator.com/rss',
   format: 'xml'
 });
-render(hn, { view: cat(fs.thyb['hnView.html']) });</pre>
+render(hn, { view: fs('./hnView.html') });</pre>
 </section>
 <section id="args">
 	<h2>Arguments</h2>
@@ -154,6 +154,19 @@ render(hn, { view: cat(fs.thyb['hnView.html']) });</pre>
   }
 });</pre><br />
 <p>In the Webshell API, you can directly set arguments in the URL: <pre>http://api.webshell.io?code=get(%7B%0A%20%20%22url%22%3A%22https%3A%2F%2Fapi.metwit.com%2Fv2%2Fweather%22%2C%0A%20%20%22params%22%3A%7B%0A%20%20%20%20%22location_lat%22%3A%20args.lat%2C%0A%20%20%20%20%22location_lng%22%3A%20args.lng%0A%20%20%7D%0A%7D)%3B&lat=45.45&lng=9.18</pre></p>
+<p>Or, you can use a POST request to <pre>http://api.webshell.io</pre> with a <pre>application/json</pre> Content-Type and a body containing the same options</p>
+<pre>{"code":"get({\
+    url:\"https://api.metwit.com/v2/weather\",\
+    params:{\
+      location_lat: args.lat,\
+      location_lng: args.lng\
+    }\
+  });",
+  "args":{
+    "lat":45.45,
+    "lng":9.18
+  }
+}</pre>
 </section>
 
 <section id="apis">
