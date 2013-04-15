@@ -139,7 +139,7 @@ write({src: fs.login.test, content: "Hello World"});
 echo(cat(fs.login.test));
 
 /*
-** Execute helloWorld file of `thyb` user
+** Execute helloWorld file of a user
 */
 fs.login.helloWorld();
 
@@ -233,10 +233,10 @@ $('document').ready(function() {
   <p>As all APIs on Webshell are written in Javascript using the Webshell standart library, you can write your own scripts and publish them as a new API on the platform.</p>
   <p>You have 4 ways to add APIs on Webshell:</p>
   <ul>
-    <li>in Javascript</li>
-    <li>from a WADL File</li>
-    <li>from a SWAGGER File</li>
-    <li>from a Mashape XML file</li>
+    <li>- in Javascript</li>
+    <li>- from a WADL File</li>
+    <li>- from a SWAGGER File</li>
+    <li>- from a Mashape XML file</li>
   </ul>
   <p>If you have a WADL, Swagger or Mashape XML file, it will be easy to integrate it into Webshell. We made some builtins function in the Webshell standart library that enable to generate Javascript files and documentation in HTML from these API description files. For little API with few endpoints, you can easily do a wrapper yourself. Example for metwit we saw in <a href="#js-aas" class="inter-link">Javascript as a service</a> chapter</p>
 
@@ -260,23 +260,23 @@ get({
   <pre class="prettyprint">login/
   metwit/
     metwit</pre>
-  <p>With the following code in metwit file</p>
-  <pre class="prettyprint">module_exports = {
-  weather: function(args, opts) {
-    if (!args.lat || !args.lng)
-      error('You have to specify `lat` and `lng` argument');
-    return get({
-      "url":"https://api.metwit.com/v2/weather",
-      "params":{
-        "location_lat": lat,
-        "location_lng": lng
-      }
-    });
-  },
-  anotherMethod: function(args, opts) {
-    echo('Todo :)');
-  }
-}</pre>
+  <p>With the following code in metwit file using exports (or module.exports)</p>
+  <pre class="prettyprint">exports.weather: function(args, opts) {
+  if (!args.lat || !args.lng)
+    error('You have to specify `lat` and `lng` argument');
+  return get({
+    "url":"https://api.metwit.com/v2/weather",
+    "params":{
+      "location_lat": lat,
+      "location_lng": lng
+    }
+  });
+}
+
+exports.anotherMethod: function(args, opts) {
+  echo('Todo :)');
+}
+</pre>
 <p>Then you can call your script like that: <code>fs.login.metwit.weather({lat: "45.45", lng: "9.18"});</code> or <code>fs.login.metwit.anotherMethod();</code></p>
 <p>Once your script stabilized, you can publish it on the <a href="http://webshell.io/explorer">API Explorer</a>.</p>
 <p>You can configure the authentication of your API using a conf.json file in your metwit folder (cf <a href="#add-your-api/conf-auth">Add your API / conf.json</a>).</p>
