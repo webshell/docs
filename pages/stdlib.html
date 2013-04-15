@@ -47,7 +47,7 @@ Hello World<br /><br />
   contenttype: (optional string),
   headers: (optional object),
   params: (optional string or object),
-  body: (optional string or object),
+  body: (optional string or object or path or buffer),
   format: (optional string)
 })</pre></p>
 		<p>Executes a custom http request to the specified <code>url</code>. You can set a <code>provider</code> that can fill authentication headers and parameters.</p>
@@ -57,7 +57,8 @@ Hello World<br /><br />
 			<li><p><code>contenttype</code> allows you to set the type of the data passed in the http <code>body</code>.</p></li>
 			<li><p><code>headers</code> can be used to set your own request headers.</p></li>
 			<li><p><code>params</code> contains the GET parameters passed in the requested url.</p></li>
-			<li><p><code>format</code> can be set to a mime type or to shortened types 'json', 'xml'. Set <em>undefined</em> for a raw output response.</p></li>
+			<li><p><code>body</code> contains the request's body for a suitable method. See examples below.</p></li>
+			<li><p><code>format</code> can be set to a supported mime type or to shortened types 'json', 'xml'. Set <em>'permissive_json'</em> for a non-strict JSON parser, or <em>'buffer'</em> to get the raw response into a buffer.</p></li>
 		</ul>
 		<p>This builtin returns a <strong>WebshellHttp</strong> that immediately starts the request, but waits for its result only if a field of that object is read.</p><p>Additionally, the builtin <code>infos</code> can be used to receive the requested information without waiting for the response.</p>
 	</div><br />
@@ -117,6 +118,38 @@ Hello World<br /><br />
 			<li><code>fullurl</code>, expended requested url, useful when using the <code>provider</code> http parameter</p></li>
 		</ul>
 	</div>
+	<div>
+		<h4>Basic examples:</h4>
+		<p>Minimal request:<pre class="prettyprint">get({'google.com'})</pre>will use default parameters and default protocol "http"</p>
+		<p>Simple get request with parameters:<pre class="prettyprint">get({url:'mydomain.com',params:{myParam:42,otherParam:"a value"}})</pre></p>
+		<p>Simple post request:<pre class="prettyprint">post({url:'mydomain.com',body:{myBodyParam:24,otherBodyParam:"another value"}})</pre> will send a POST request with body fields in <code>application/x-www-form-urlencoded</code> default format</p>
+		<p>JSON post request and url parameters:<pre class="prettyprint">post({
+  url:'mydomain.com',
+  contenttype:'application/json', // set body encoding
+  params:{myParam:42,otherParam:"a value"}, // query parameters
+  body:{myBodyParam:24,otherBodyParam:"another value"}, // this object will be sent JSONified
+};
+		</pre></p>
+		<p>Send files from fs (in multipart/form-data):<pre class="prettyprint">post({
+  url: 'mydomain.com',
+  body: http.file({myfile:fs.path.to.file, myotherfile:fs.path.to.other.file})
+})</pre></p>
+		<p>Send a file from data or buffer (in multipart/form-data):<pre class="prettyprint">post({
+  url: 'mydomain.com',
+  body: http.file({myfile: {filename: 'x.jpg', body:myJpgBuffer}})
+})</pre></p>
+	</div>
+	<div>
+		<h4>Extended usage:</h4>
+		<p>Receive the response into a buffer:<pre class="prettyprint">get({url:'mydomain.com', format:'buffer'})</pre></p>
+		<p>Send a multipart/form-data request:<pre class="prettyprint">post({
+  url: 'mydomain.com',
+  body: http.multipart({a:'x',b:'y'}), // request's content-type will be auto-ajusted to "multipart/form-data"
+};</pre></p>
+		<p>Send a multipart/mixed request (body field):<pre class="prettyprint">...body:http.multipart(['x', 'y'])...</pre></p>
+		<p>Send a multipart/mixed in a multipart/form-data (body field):<pre class="prettyprint">...body:http.multipart({a:['x', 'y']})...</pre></p>
+		<p>Send data and files from multipart/mixed in a multipart/form-data (body field):<pre class="prettyprint">...body:http.multipart({a: 'x', b:http.files([fs.bump['x.jpg'], fs.bump['y.jpg']]) })</pre></p>
+	</div>
 </section><br /><br />
 <section id="fs">
 	<h2>File management builtins</h2>
@@ -148,12 +181,14 @@ Hello World<br /><br />
 	<div>
 		<h3>require()</h3>
 		<p><pre class="prettyprint">require(WebshellPath)</pre></p>
-		<p>Import the file in <code>path</code> in your code in the same way of node.js. <pre class="prettyprint">//in test file
-module.export = {
+		<p>Import the file in <code>path</code> in your code in the same way of node.js.<br/>
+		in <code>test</code> file:<pre class="prettyprint">
+module.exports = {
   a: 42	
 }
-
-//in user file
+</pre>
+In a user's file:
+<pre class="prettyprint">
 var t = require('test');
 
 //t == {a:42}
