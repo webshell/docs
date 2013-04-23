@@ -168,17 +168,6 @@ get({
   <p>If the WADL need authentication, you need to write your conf.json manually because WADL's file don't contains any information about the authentication.</p>
   <p>As the documentation of the API is contained in the WADL File, we generate HTML files to make a pretty and simple docs. To read documentation, use <code>docs()</code> builtin function</p>
 </section>
-<section id="generate-from-swagger">
-  <h2>Generate from Swagger</h2>
-  <p>Swagger is a new format for describing REST API using a JSON file. We've made a builtin which generate javascript compatible with Webshell from a Swagger File</p>
-  <pre class="prettyprint">swagger({
-  xml: fs.username.path['swagger.json'],
-  output: fs.username.apiName
-})</pre><br />
-  <p>It will write in <code>fs.username.apiName</code> javascript generated from <code>fs.username.path['swagger.json']</code>. Change paths by your own.</p>
-  <p>If the API need authentication, you need to write your conf.json manually because Swagger's file don't contains any information about the authentication.</p>
-  <p>Currently, the documentation is not generated from Swagger but we're working on it.</p>
-</section>
 <section id="generate-from-mashape">
   <h2>Generate from Mashape XML File</h2>
   <p>Mashape is an API Hub with an API to access their API description. This XML is based on any standard but was made nicely. Authentication information is available in the XML so, we generate for you the configuration file (conf.json)</p>
