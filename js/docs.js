@@ -54,7 +54,6 @@ var menu = {
             'js-wrapper': 'API Wrapper in Javascript',
             'setup-auth': 'Setup Authentication: conf.json', 
             'generate-from-wadl': 'Generate from WADL',
-            'generate-from-swagger': 'Generate from swagger',
             'generate-from-mashape': 'Generate from Mashape XML file',
             'publish': 'Publish on the API Explorer (soon)',
             'pullrequest': 'Pull request (soon)',
