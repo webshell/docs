@@ -162,7 +162,7 @@ get({
   <p>WADL is a standard for describing REST API using a XML file. We've made a builtin which generate javascript compatible with Webshell from a WADL File</p>
   <pre class="prettyprint">wadl({
   xml: fs.username.path['wadl.xml'],
-  output: fs.username.apiName
+  target: fs.username.apiName
 })</pre><br />
   <p>It will write in <code>fs.username.apiName</code> javascript generated from <code>fs.username.path['wadl.xml']</code>. Change paths by your own.</p>
   <p>If the WADL need authentication, you need to write your conf.json manually because WADL's file don't contains any information about the authentication.</p>
@@ -178,3 +178,29 @@ get({
   <p>It will write in <code>fs.username.apiName</code> javascript generated from <code>fs.username.path['mashape.xml']</code>. Change paths by your own.</p>
   <p>Currently, the documentation is not generated from Swagger but we're working on it.</p>
 </section>
+<section id="generate-docs">
+  <h2>Generate docs from JS File</h2>
+  <p> Webshell can generate your doc from your js file. This builtin is based with the jsdoc syntax </p>
+  <p> JsDoc is a syntax for adding inline API documentation to JavaScript source code </p>
+  <pre class="prettyprint">
+/**
+ * @category All
+ * @param {string} [sentence] Input sentence to turn into Yoda-speak
+ * @methodhttp GET
+ */
+        'YodaSpeak': function(args, opts) {
+// ...
+}
+</pre><br />
+<p>The <code>category</code> tag was added by webshell, to correctly sort your method in your API</p>
+<p>The <code>param</code> tag allows to declare a parameter that your method needs; you specify the type of your param between the curly brackets and after the name of your param. If your parameter is required, you have to write the name of your param between square brackets otherwise just write down the name of your param. And after the name, you can specify a description of the parameter</p>
+<p>The <code>methodhttp</code> tag was added by webshell to specify the type of http method that your method will send. GET / POST / PUT or DELETE</p>
+  <pre class="prettyprint">doc.generate(fs.username.apiName['jsfile.js'])</pre><br />
+  <p>It will create a docs directory with all your HTML files from <code>fs.username.apiName['jsfile.js']</code>.
+  <p> this method is like the builtin jsdoc, and it takes the same arguments </code>
+  <pre class="prettyprint">doc.search({query:'yoda', path: fs.username.apiName})</pre><br />
+  <p>It will search the query <code>yoda</code> for all the methods or categories in the <code>fs.username.apiName</code>. the result will be formatted in json</p>
+  <pre class="prettyprint">doc(fs.username.apiName['file.html'])</pre><br />
+  <p>It will display the <code>file.html</code> with the 
+    css of webshell </p>
+
