@@ -55,22 +55,22 @@ get({
   <h2>Generate docs with jsdoc</h2>
   <p> Webshell can generate your doc from your js file. This builtin is based with the jsdoc syntax </p>
   <p> JsDoc is a syntax for adding inline API documentation to JavaScript source code </p>
-  <pre class="prettyprint">
-/**
- * @category All
- * @param {string} [sentence] Input sentence to tundr into Yoda-speak
- * @methodhttp GET
- */
-        'YodaSpeak': function(args, opts) {
-// ...
-}
-</pre><br />
-<p>The <code>category</code> tag was added by webshell, to correctly sort your method in your API</p>
-<p>The <code>param</code> tag allows to declare a parameter that your method needs; you specify the type of your param between the curly brackets and after the name of your param. If your parameter is required, you have to write the name of your param between square brackets otherwise just write down the name of your param. And after the name, you can specify a description of the parameter</p>
-<p>The <code>methodhttp</code> tag was added by webshell to specify the type of http method that your method will send. GET / POST / PUT or DELETE</p>
-  <pre class="prettyprint">doc.generate(fs.username.apiName['jsfile.js'])</pre><br />
-  <p>It will create a docs directory with all your HTML files from <code>fs.username.apiName['jsfile.js']</code>.
-  <p> this method is like the builtin jsdoc, and it takes the same arguments </code>
+  <pre class="prettyprint">module_exports = {
+  /**
+   * @category All
+   * @param {string} [sentence] Input sentence to tundr into Yoda-speak
+   * @methodhttp GET
+   */
+  'YodaSpeak': function(args, opts) {
+    // ...
+  }
+}</pre><br />
+  <p>The <code>category</code> tag was added by webshell, to correctly sort your method in your API</p>
+  <p>The <code>param</code> tag allows to declare a parameter that your method needs; you specify the type of your param between the curly brackets and after the name of your param. If your parameter is required, you have to write the name of your param between square brackets otherwise just write down the name of your param. And after the name, you can specify a description of the parameter</p>
+  <p>The <code>methodhttp</code> tag was added by webshell to specify the type of http method that your method will send. GET / POST / PUT or DELETE</p>
+  <pre class="prettyprint">doc.generate(fs.username.apiName.filename)</pre><br />
+  <p>It will create a docs directory with all your HTML files from your file path (ie: <code>fs.thyb.yoda.yoda</code>). <code>doc.generate()</code> can take an array of files (ie: <code>[fs.thyb.yoda.yoda, fs.thyb.yoda.file2]</code>)
+  <p>This method is like the <code>jsdoc()</code> builtin function from the stdlib, and takes the same arguments</code>
   <pre class="prettyprint">doc.search({query:'yoda', path: fs.username.apiName})</pre><br />
   <p>It will search the query <code>yoda</code> for all the methods or categories in the <code>fs.username.apiName</code>. the result will be formatted in json</p>
   <pre class="prettyprint">doc(fs.username.apiName['file.html'])</pre><br />
