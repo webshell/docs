@@ -40,7 +40,43 @@ get({
   }
 }</pre>
 </section>
-<section id="setup-auth">
+<section id="generate-from-wadl">
+  <h2>Generate from WADL</h2>
+</section>
+<section id="generate-from-mashape">
+  <h2>Generate from Mashape XML File</h2>
+  <p></p>
+</section>
+<section id="api-docs">
+  <h2>API Documentation</h2>
+  <p></p>
+</section>
+<section id="jsdoc">
+  <h2>Generate docs with jsdoc</h2>
+  <p> Webshell can generate your doc from your js file. This builtin is based with the jsdoc syntax </p>
+  <p> JsDoc is a syntax for adding inline API documentation to JavaScript source code </p>
+  <pre class="prettyprint">
+/**
+ * @category All
+ * @param {string} [sentence] Input sentence to tundr into Yoda-speak
+ * @methodhttp GET
+ */
+        'YodaSpeak': function(args, opts) {
+// ...
+}
+</pre><br />
+<p>The <code>category</code> tag was added by webshell, to correctly sort your method in your API</p>
+<p>The <code>param</code> tag allows to declare a parameter that your method needs; you specify the type of your param between the curly brackets and after the name of your param. If your parameter is required, you have to write the name of your param between square brackets otherwise just write down the name of your param. And after the name, you can specify a description of the parameter</p>
+<p>The <code>methodhttp</code> tag was added by webshell to specify the type of http method that your method will send. GET / POST / PUT or DELETE</p>
+  <pre class="prettyprint">doc.generate(fs.username.apiName['jsfile.js'])</pre><br />
+  <p>It will create a docs directory with all your HTML files from <code>fs.username.apiName['jsfile.js']</code>.
+  <p> this method is like the builtin jsdoc, and it takes the same arguments </code>
+  <pre class="prettyprint">doc.search({query:'yoda', path: fs.username.apiName})</pre><br />
+  <p>It will search the query <code>yoda</code> for all the methods or categories in the <code>fs.username.apiName</code>. the result will be formatted in json</p>
+  <pre class="prettyprint">doc(fs.username.apiName['file.html'])</pre><br />
+  <p>It will display the <code>file.html</code> with the 
+    css of webshell </p>
+</section><section id="setup-auth">
   <h2>Setup authentication : conf.json</h2>
     <p>You may want to connect to any API, which is not present on the platform, or enable an authentification for users using your API. To do so, you have to write a configuration file describing the authentication method named <code>conf.json</code>. You can add this file through the API Editor. Here is how to write this JSON file, based on the facebook conf:</p>
   <pre class="prettyprint">{ 
@@ -157,50 +193,3 @@ get({
 
   <br /><p>You can see full examples of <a href="http://api.webshell.local/apis/facebook/v0.1/conf.json">facebook's conf.json</a> or <a href="http://api.webshell.local/apis/twitter/v0.1/conf.json">twitter's conf.json</a></p> 
 </section>
-<section id="generate-from-wadl">
-  <h2>Generate from WADL</h2>
-  <p>WADL is a standard for describing REST API using a XML file. We've made a builtin which generate javascript compatible with Webshell from a WADL File</p>
-  <pre class="prettyprint">wadl({
-  xml: fs.username.path['wadl.xml'],
-  target: fs.username.apiName
-})</pre><br />
-  <p>It will write in <code>fs.username.apiName</code> javascript generated from <code>fs.username.path['wadl.xml']</code>. Change paths by your own.</p>
-  <p>If the WADL need authentication, you need to write your conf.json manually because WADL's file don't contains any information about the authentication.</p>
-  <p>As the documentation of the API is contained in the WADL File, we generate HTML files to make a pretty and simple docs. To read documentation, use <code>docs()</code> builtin function</p>
-</section>
-<section id="generate-from-mashape">
-  <h2>Generate from Mashape XML File</h2>
-  <p>Mashape is an API Hub with an API to access their API description. This XML is based on any standard but was made nicely. Authentication information is available in the XML so, we generate for you the configuration file (conf.json)</p>
-  <pre class="prettyprint">mashape({
-  xml: fs.username.path['mashape-api.xml'],
-  output: fs.username.apiName
-})</pre><br />
-  <p>It will write in <code>fs.username.apiName</code> javascript generated from <code>fs.username.path['mashape.xml']</code>. Change paths by your own.</p>
-  <p>Currently, the documentation is not generated from Swagger but we're working on it.</p>
-</section>
-<section id="generate-docs">
-  <h2>Generate docs from JS File</h2>
-  <p> Webshell can generate your doc from your js file. This builtin is based with the jsdoc syntax </p>
-  <p> JsDoc is a syntax for adding inline API documentation to JavaScript source code </p>
-  <pre class="prettyprint">
-/**
- * @category All
- * @param {string} [sentence] Input sentence to turn into Yoda-speak
- * @methodhttp GET
- */
-        'YodaSpeak': function(args, opts) {
-// ...
-}
-</pre><br />
-<p>The <code>category</code> tag was added by webshell, to correctly sort your method in your API</p>
-<p>The <code>param</code> tag allows to declare a parameter that your method needs; you specify the type of your param between the curly brackets and after the name of your param. If your parameter is required, you have to write the name of your param between square brackets otherwise just write down the name of your param. And after the name, you can specify a description of the parameter</p>
-<p>The <code>methodhttp</code> tag was added by webshell to specify the type of http method that your method will send. GET / POST / PUT or DELETE</p>
-  <pre class="prettyprint">doc.generate(fs.username.apiName['jsfile.js'])</pre><br />
-  <p>It will create a docs directory with all your HTML files from <code>fs.username.apiName['jsfile.js']</code>.
-  <p> this method is like the builtin jsdoc, and it takes the same arguments </code>
-  <pre class="prettyprint">doc.search({query:'yoda', path: fs.username.apiName})</pre><br />
-  <p>It will search the query <code>yoda</code> for all the methods or categories in the <code>fs.username.apiName</code>. the result will be formatted in json</p>
-  <pre class="prettyprint">doc(fs.username.apiName['file.html'])</pre><br />
-  <p>It will display the <code>file.html</code> with the 
-    css of webshell </p>
-
