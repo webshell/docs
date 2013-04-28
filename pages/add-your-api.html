@@ -92,23 +92,32 @@ get({
   <p>This method is like the <code>jsdoc()</code> builtin function from the stdlib, and takes the same arguments</code>
   <pre class="prettyprint">doc.search({query:'yoda', path: fs.username.apiName})</pre><br />
   <p>It will search the query <code>yoda</code> for all the methods or categories in the <code>fs.username.apiName</code>. the result will be formatted in json</p>
-  <pre class="prettyprint">doc(fs.username.apiName['file.html'])</pre><br />
+  <pre class="prettyprint">doc(fs.username.apiName.docs['file.html'])</pre><br />
   <p>It will display the <code>file.html</code> with the 
     css of webshell </p>
 </section><section id="setup-auth">
   <h2>Setup authentication : conf.json</h2>
     <p>You may want to connect to any API, which is not present on the platform, or enable an authentification for users using your API. To do so, you have to write a configuration file describing the authentication method named <code>conf.json</code>. You can add this file through the API Editor. Here is how to write this JSON file, based on the facebook conf:</p>
   <pre class="prettyprint">{ 
-  "displayName": "Facebook" // Displayed name on the platform
-  "base_url":"https://graph.facebook.com/", // All relative path requests will use this base
-  "default_auth":"oauth2", // Default authentication when using auth builtin
-  "auth":{ // Describes the different possible authentication modes
-    "none":{}, // If this line is present, you can still use non authenticated requests.
-    "manual": [[Manual Auth Object]], // Contains informations about a custom authentication scheme (see below)
-    "oauth2": [[OAuth 2 Object]], // Contains informations about OAuth 2 informations (see below)
-    "oauth1": [[OAuth 1 Object]], // Contains informations about OAuth 1 informations (see below)
+  //Displayed name on the platform
+  "displayName": "Facebook"
+  //All relative path requests will use this base
+  "base_url":"https://graph.facebook.com/",
+  //Default authentication when using auth builtin
+  "default_auth":"oauth2",
+  //Describes the different possible authentication modes
+  "auth":{ 
+    //If 'none' is present, you can still use non authenticated requests.
+    "none":{},
+    //Contains informations about a custom auth scheme (see below)
+    "manual": [[Manual Auth Object]],
+    //Contains informations about OAuth 2 informations (see below)
+    "oauth2": [[OAuth 2 Object]],
+    //Contains informations about OAuth 1 informations (see below)
+    "oauth1": [[OAuth 1 Object]],
   },
-  "parameters": [[Parameters Object]] // Contains configurable global parameters array (see below)
+  //Contains configurable global parameters array (see below)
+  "parameters": [[Parameters Object]]
 }</pre>
 
   <br/><p>Depending on authentications modes the api uses, you can set different configuration object:<p>

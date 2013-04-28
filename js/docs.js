@@ -22,7 +22,7 @@ var DocsRouter = Backbone.Router.extend({
 		"*url": "init"
 	},
 	docsPage: function(page, anchor) {
-		$.getJSON('/js/menu.json', function(menu) {
+		$.getJSON('./js/menu.json', function(menu) {
 			$('#main-menu li:not(.wsh-link)').remove();
 			for (key in menu) {
 				$('#main-menu').append('<li><a href="#' + key + '">' + menu[key].title + '</a></li>')
