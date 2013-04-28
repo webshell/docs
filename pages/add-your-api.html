@@ -43,7 +43,7 @@ get({
 <section id="generate-from-wadl">
   <h2>Generate from WADL</h2>
     <p>WADL is a standard for describing REST API using a XML file. We've made a builtin which generate javascript compatible with Webshell from a WADL File</p>
-    <a href="https://webshell.github.io/docs/example/yoda.wadl">Example of a wadl file </a>
+    <a href="http://webshell.github.io/docs/example/yoda.wadl">Example of a wadl file </a>
   <pre class="prettyprint">wadl({
   xml: fs.username.path['wadl.xml'],
   target: fs.username.apiName
@@ -52,8 +52,8 @@ get({
   <p>If the WADL need authentication, you need to write your conf.json manually because WADL's file don't contains any information about the authentication.</p>
   <p>As the documentation of the API is contained in the WADL File, we generate HTML files to make a pretty and simple docs. To read documentation, use <code>docs()</code> builtin function</p>
   <p> At the end we have a js file and a docs directory with all the HTML file : </p>
- <img src="http://webshell.github.io/docs/images/webshell-wadl.png" />
- <a href="https://webshell.github.io/docs/example/yoda.js"> Example of a js file generated </a>
+ <img src="http://webshell.github.io/docs/images/webshell-wadl.png" /> <br />
+ <a href="http://webshell.github.io/docs/example/yoda.js"> Example of a js file generated </a>
 </section>
 <section id="generate-from-mashape">
   <h2>Generate from Mashape XML File</h2>
