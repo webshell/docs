@@ -120,7 +120,7 @@ Hello World<br /><br />
 	</div>
 	<div>
 		<h4>Basic examples:</h4>
-		<p>Minimal request:<pre class="prettyprint">get({'google.com'})</pre>will use default parameters and default protocol "http"</p>
+		<p>Minimal request:<pre class="prettyprint">get('google.com')</pre>will use default parameters and default protocol "http"</p>
 		<p>Simple get request with parameters:<pre class="prettyprint">get({url:'mydomain.com',params:{myParam:42,otherParam:"a value"}})</pre></p>
 		<p>Simple post request:<pre class="prettyprint">post({url:'mydomain.com',body:{myBodyParam:24,otherBodyParam:"another value"}})</pre> will send a POST request with body fields in <code>application/x-www-form-urlencoded</code> default format</p>
 		<p>JSON post request and url parameters:<pre class="prettyprint">post({
