@@ -57,8 +57,8 @@ get({
 </section>
 <section id="generate-from-mashape">
   <h2>Generate from Mashape XML File</h2>
-    <p>Mashape is an API Hub with an API to access their API description. This XML is based on any standard but was made nicely. Authentication information is available in the XML so, we generate for you the configuration file (conf.json)</p>
-    <p>The mashape builtin generate a wadl file, then we call the wadl builtin to generate all the js and documentation for the api </p>
+  <p>Mashape is an API Hub with more than 2240 APIs. All APIs available on Mashape have a description XML files associated with all endpoints/parameters and documentation. We've made a tool for generate your API from Mashape transforming the Mashape XML into a WADL file. Authentication information is in the Mashape XML file so, we generate for you the configuration file (conf.json)</p>
+  <p>The mashape builtin generate a WADL file, then call the wadl builtin to generate all the js and documentation for the api </p>
   <pre class="prettyprint">mashape({
   xml: fs.username.path['mashape-api.xml'],
   output: fs.username.apiName
