@@ -146,9 +146,9 @@ $.get(readmeUrl, {}, function(data) {
      alt="Github icon" /&gt;</pre>
     <h4>Execute file</h4>
     <p>You can execute a file directly via an URL to retrieve the JSON using this url: <code>http://fs.webshell.io/{username}/path/to/file[?arg1=value1[&arg2=value2]]</code></p>
-    <pre class="prettyprint">$> curl --url "http://fs.webshell.io/bin/gravatar?mail=team@webshell.io</pre><br />
+    <pre class="prettyprint">$> curl --url "http://api.webshell.io/fs/bin/gravatar?mail=team@webshell.io</pre><br />
     <p>or using jquery <code>$.get</code></p>
-	<pre class="prettyprint">$.get('http://fs.webshell.io/bin/gravatar', {
+	<pre class="prettyprint">$.get('http://api.webshell.io/fs/bin/gravatar', {
   mail: "team@webshell.io"
 }, function(data) {
   var json = JSON.parse(data);
