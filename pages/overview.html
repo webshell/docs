@@ -247,7 +247,7 @@ $('document').ready(function() {
   <p>In the weather file, write the following:</p>
   <pre class="prettyprint">//fs.yourNickname.weather.weather
 if (!args.lat || !args.lng)
-  error('You have to specify `lat` and `lng` argument');
+  throw new Error('You have to specify `lat` and `lng` argument');
 get({
   "url":"https://api.metwit.com/v2/weather",
   "params":{
@@ -263,7 +263,7 @@ get({
   <p>With the following code in metwit file using exports (or module.exports)</p>
   <pre class="prettyprint">exports.weather: function(args, opts) {
   if (!args.lat || !args.lng)
-    error('You have to specify `lat` and `lng` argument');
+    throw new Error('You have to specify `lat` and `lng` argument');
   return get({
     "url":"https://api.metwit.com/v2/weather",
     "params":{
